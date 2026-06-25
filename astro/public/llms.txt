@@ -1,0 +1,53 @@
+# aiartifacts.art
+
+> 一个 AI 信徒的个人站点。产出可被复用的 artifact：日常观察、工具、作品与课程。所有内容围绕 AI。
+
+## 站点说明
+
+aiartifacts.art 是一个静态个人站点，主题专注于 AI。站点包含五个部分：
+
+- **daily** — 日常观察与笔记，住在二级域名 `https://daily.aiartifacts.art/`
+- **tools** — 即拿即用的小工具（CLI / Web）
+- **artifacts** — 精选作品，长期可复用
+- **about** — 关于站点
+- **courses** — 系统化课程
+
+站点的核心理念：所有产出都被称为 **artifact**（人工制品）——不是一次性的内容消费，而是被刻意打磨、可以被反复调用与改进的东西。它可能是一段 prompt、一个工具、一份 slide，或一门课程。
+
+## Artifact（精选作品）
+
+- [slide-studio](https://ss.aiartifacts.art/) — 纯浏览器端的 slide 工具，无需登录、无需后端，打开即用。
+- prompt-atlas — 面向中文场景的 prompt 模式库（建设中）。
+- agent-runbook — 真实工作流里部署 agent 的操作手册（wip）。
+- ai-glossary — 为中文使用者整理的 AI 术语对照表（planned）。
+
+## Tools
+
+- prompt-linter — 在本地检查 prompt 的常见坏味道（CLI, OSS）。
+- ai-snippet — 把一段对话沉淀成可复用的 prompt 片段（Web, Free）。
+- artifact-init — 一键生成 artifact 目录结构（CLI, OSS）。
+
+## Courses
+
+- AI artifact 工作流 — 从想法到可被复用的产物。12 节，含实战项目。第 2 期 2026-09 开课。
+- 和 AI 一起写作 — 把 AI 当成协作者而非工具。第 1 期 2026-11 开课（候补）。
+
+## 子站点
+
+- 主站: https://aiartifacts.art/
+- daily: https://daily.aiartifacts.art/
+- slide-studio: https://ss.aiartifacts.art/
+- tools (规划中): https://tools.aiartifacts.art/
+
+## 技术
+
+- 静态站点，Astro 生成
+- 暗色终端风 + 亮色双主题
+- 无追踪、无广告
+- 内容以中文为主
+
+## 联系
+
+- Email: hi@aiartifacts.art
+- License: CC BY-NC 4.0
+- GitHub: https://github.com/runc/aiartifacts.art
