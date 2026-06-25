@@ -38,9 +38,17 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Create Pages project (if missing)
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages project create aiartifacts.art --production-branch=main
+        continue-on-error: true
+
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy dist --project-name=aiartifacts.art --branch=${{ github.ref_name }}
+          command: pages deploy dist --project-name=aiartifacts.art --branch=${{ github.ref_name }} --commit-dirty=true
