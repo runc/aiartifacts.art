@@ -50,8 +50,8 @@ astro/
 
 - 每页独立 title / description / canonical / OG / Twitter card
 - `WebSite` + `Organization` JSON-LD（在 `Layout.astro`）
-- `sitemap-index.xml` 自动生成（`@astrojs/sitemap`）
-- `robots.txt` 引用 sitemap
+- `robots.txt` 允许全站抓取
+- 部署：GitHub Action 自动构建并推送到 Cloudflare Pages（项目名 `aiartifacts.art`）
 
 ## 下一步
 
