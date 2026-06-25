@@ -43,6 +43,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: astro
           command: pages project create aiartifacts-art --production-branch=main
         continue-on-error: true
 
@@ -51,4 +52,5 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: astro
           command: pages deploy dist --project-name=aiartifacts-art --branch=${{ github.ref_name }} --commit-dirty=true
