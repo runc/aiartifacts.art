@@ -1,0 +1,12 @@
+---
+const { idx, title, tag, id } = Astro.props;
+---
+
+<section class="block wrap" id={id} data-screen-label={title}>
+  <div class="sec-head">
+    <span class="idx">[ {idx} ]</span>
+    <h2>// {title}</h2>
+    {tag && <span class="tag">{tag}</span>}
+  </div>
+  <slot />
+</section>

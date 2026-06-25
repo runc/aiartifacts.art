@@ -1,0 +1,71 @@
+---
+import "../styles/global.css";
+import { site } from "../data/site";
+
+const {
+  title = site.title,
+  description = site.description,
+  image,
+  canonical = Astro.url.href
+} = Astro.props;
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${site.url}/#website`,
+      url: `${site.url}/`,
+      name: site.domain,
+      description: site.description,
+      inLanguage: "zh-CN",
+      publisher: { "@id": `${site.url}/#brand` }
+    },
+    {
+      "@type": "Organization",
+      "@id": `${site.url}/#brand`,
+      name: site.domain,
+      url: `${site.url}/`,
+      description: "一个 AI 信徒的个人品牌，产出日常观察、工具、作品与课程，全部围绕 AI。",
+      sameAs: []
+    }
+  ]
+};
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#0a0a0a" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f6f3ec" media="(prefers-color-scheme: light)" />
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site.domain} />
+    <meta name="keywords" content={site.keywords} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.domain} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="zh_CN" />
+    {image && <meta property="og:image" content={image} />}
+
+    <meta name="twitter:card" content={image ? "summary_large_image" : "summary"} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate" type="application/rss+xml" title={site.domain} href={site.rssPath} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

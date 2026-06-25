@@ -1,0 +1,61 @@
+---
+import { nav, site } from "../data/site";
+---
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#top" aria-label="aiartifacts.art">
+      <span class="prompt">$</span>
+      <span class="name">aiartifacts</span><span class="ext">.art</span>
+      <span class="cur" aria-hidden="true"></span>
+    </a>
+    <nav class="primary" aria-label="主导航">
+      {
+        nav.map((item) => (
+          <a href={item.href}>
+            <span class="n">{item.idx}</span>
+            {item.label}
+          </a>
+        ))
+      }
+      <button class="theme-toggle" id="theme-toggle" type="button" aria-label="切换主题">
+        <span id="theme-label">~/light</span>
+      </button>
+    </nav>
+  </div>
+  <nav class="mobile-nav" aria-label="移动导航">
+    {
+      nav.map((item) => (
+        <a href={item.href}>
+          <span class="n">{item.idx}</span>
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
+</header>
+
+<script is:inline>
+  (function () {
+    const KEY = "aia-theme";
+    const root = document.documentElement;
+    const btn = document.getElementById("theme-toggle");
+    const label = document.getElementById("theme-label");
+
+    function apply(t) {
+      root.setAttribute("data-theme", t);
+      if (label) label.textContent = t === "light" ? "~/dark" : "~/light";
+    }
+
+    const saved = localStorage.getItem(KEY);
+    const prefersLight = window.matchMedia("(prefers-color-scheme: light)").matches;
+    apply(saved || (prefersLight ? "light" : "dark"));
+
+    btn?.addEventListener("click", () => {
+      const cur = root.getAttribute("data-theme") === "light" ? "light" : "dark";
+      const next = cur === "light" ? "dark" : "light";
+      localStorage.setItem(KEY, next);
+      apply(next);
+    });
+  })();
+</script>

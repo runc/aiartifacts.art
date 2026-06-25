@@ -1,0 +1,120 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Topbar from "../components/Topbar.astro";
+import Hero from "../components/Hero.astro";
+import Section from "../components/Section.astro";
+import ArtifactCard from "../components/ArtifactCard.astro";
+import Footer from "../components/Footer.astro";
+import { artifacts, writing, tools, courses, site } from "../data/site";
+---
+
+<Layout>
+  <Topbar />
+
+  <main id="top">
+    <Hero />
+
+    <Section idx="00" title="now" tag="当前在做的事" id="now">
+      <div class="now">
+        <p>
+          <span class="k">$ status —</span>
+          正在更新 <a href={site.dailyUrl}>daily.aiartifacts.art</a>，
+          整理上半年关于 AI agent 与投资框架的笔记。
+          下一阶段会把若干内部工具开放为可公开的 artifact。
+        </p>
+      </div>
+    </Section>
+
+    <Section idx="03" title="artifacts" tag="精选作品 · 长期可复用" id="artifacts">
+      <div class="grid-artifacts">
+        {artifacts.map((a) => <ArtifactCard artifact={a} />)}
+      </div>
+    </Section>
+
+    <Section idx="01" title="writing" tag="来自 daily.aiartifacts.art" id="writing">
+      <ul class="list">
+        {
+          writing.map((w) => (
+            <li>
+              <span class="date">{w.date}</span>
+              <a class="title" href={w.href}>{w.title}</a>
+              <span class="where">daily<span class="ext">.aiartifacts.art</span></span>
+            </li>
+          ))
+        }
+      </ul>
+    </Section>
+
+    <Section idx="02" title="tools" tag="小工具 · 即拿即用" id="tools">
+      <ul class="list">
+        {
+          tools.map((t) => (
+            <li>
+              <span class="date">{t.id}</span>
+              <a class="title" href={t.href}>{t.title}</a>
+              <span class="where">{t.where}<span class="ext"> · {t.ext}</span></span>
+            </li>
+          ))
+        }
+      </ul>
+    </Section>
+
+    <Section idx="05" title="courses" tag="课程 · 系统化输出" id="courses">
+      <div class="courses">
+        {
+          courses.map((c) => (
+            <div class="course">
+              <div>
+                <h3 class="c-title">{c.title}</h3>
+                <p class="c-desc">{c.desc}</p>
+                <div class="c-meta">
+                  <span class="badge">{c.badge}</span>
+                  {c.meta.map((m) => <span>{m}</span>)}
+                </div>
+              </div>
+              <a class="c-cta" href={c.href}>{c.cta} <span>→</span></a>
+            </div>
+          ))
+        }
+      </div>
+    </Section>
+
+    <Section idx="04" title="about" tag={`关于 ${site.domain}`} id="about">
+      <div class="about-grid">
+        <div class="about-body">
+          <p>
+            <span class="em">aiartifacts.art</span> 是一个 AI 信徒的个人站点。
+            我相信 AI 不是工具，而是一种新的世界观——
+            所有值得做的事，都应该想想能不能在 AI 时代被重新做一遍。
+          </p>
+          <p>
+            站点的所有产出都被称为 <span class="em">artifact</span>（人工制品）：
+            它不是一次性的内容消费，而是被刻意打磨、可以被反复调用与改进的东西。
+            它可能是一段 prompt、一个工具、一份 slide，或一门课程。
+          </p>
+          <p>
+            主站保持静态、克制、SEO 友好；动态内容住在
+            <a href={site.dailyUrl} style="color: var(--accent); border-bottom: 1px dashed var(--accent-dim);">daily.aiartifacts.art</a>。
+            所有页面都不追踪、不广告、不打扰。
+          </p>
+        </div>
+        <dl class="about-side">
+          <dt>// 站点</dt>
+          <dd>{site.domain}</dd>
+          <dt>// daily</dt>
+          <dd><a href={site.dailyUrl}>daily.aiartifacts.art</a></dd>
+          <dt>// tools (规划)</dt>
+          <dd>tools.aiartifacts.art</dd>
+          <dt>// contact</dt>
+          <dd><a href={`mailto:${site.contactEmail}`}>{site.contactEmail}</a></dd>
+          <dt>// rss</dt>
+          <dd><a href={site.rssPath}>{site.rssPath}</a></dd>
+          <dt>// license</dt>
+          <dd>{site.license}</dd>
+        </dl>
+      </div>
+    </Section>
+  </main>
+
+  <Footer />
+</Layout>

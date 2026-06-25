@@ -1,0 +1,737 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<meta name="color-scheme" content="dark" />
+<meta name="theme-color" content="#0a0a0a" />
+
+<title>aiartifacts.art — 一个 AI 信徒的 artifact 集结地</title>
+<meta name="description" content="aiartifacts.art 是一个 AI 信徒的个人站点。这里产出可被复用的 artifact：日常观察、工具、作品与课程，全部围绕 AI。" />
+<meta name="author" content="aiartifacts.art" />
+<meta name="keywords" content="AI, artifact, 个人作品, 课程, daily, 工具, slide studio" />
+<link rel="canonical" href="https://aiartifacts.art/" />
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content="aiartifacts.art" />
+<meta property="og:title" content="aiartifacts.art — 在 AI 与投资之间，留下可被复用的 artifact" />
+<meta property="og:description" content="专注于 AI 与投资的个人站点：日常观察、工具、作品与课程。" />
+<meta property="og:url" content="https://aiartifacts.art/" />
+<meta property="og:locale" content="zh_CN" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="aiartifacts.art" />
+<meta name="twitter:description" content="在 AI 与投资之间，留下可被复用的 artifact。" />
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0a0a'/%3E%3Ctext x='16' y='22' font-family='ui-monospace,monospace' font-size='18' fill='%23c77d3a' text-anchor='middle'%3E%3E%3C/text%3E%3C/svg%3E" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://aiartifacts.art/#website",
+      "url": "https://aiartifacts.art/",
+      "name": "aiartifacts.art",
+      "description": "一个 AI 信徒，把实践做成可被复用的 artifact。",
+      "inLanguage": "zh-CN",
+      "publisher": { "@id": "https://aiartifacts.art/#brand" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "https://aiartifacts.art/#brand",
+      "name": "aiartifacts.art",
+      "url": "https://aiartifacts.art/",
+      "description": "一个 AI 信徒的个人品牌，产出日常观察、工具、作品与课程，全部围绕 AI。",
+      "sameAs": []
+    }
+  ]
+}
+</script>
+
+<style>
+  :root {
+    --bg:        #0a0a0a;
+    --bg-soft:   #111111;
+    --bg-line:   #1d1d1d;
+    --text:      #e8e4dc;
+    --text-dim:  #8a8478;
+    --text-mute: #4d4a44;
+    --accent:    #c77d3a;
+    --accent-dim:#7a4d24;
+    --ok:        #6fae6a;
+    --mono: "JetBrains Mono", "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --maxw: 1080px;
+    --gutter: clamp(20px, 5vw, 64px);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 15px;
+    line-height: 1.65;
+    font-feature-settings: "calt" 1, "liga" 0;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  /* very subtle scanline / grain — feels like a terminal, not decoration */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(1200px 600px at 80% -10%, rgba(199,125,58,0.05), transparent 60%);
+    z-index: 0;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  ::selection { background: var(--accent); color: #0a0a0a; }
+
+  .wrap {
+    max-width: var(--maxw);
+    margin: 0 auto;
+    padding: 0 var(--gutter);
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ───── top bar ─────────────────────────────────────────── */
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(10,10,10,0.82);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--bg-line);
+  }
+  .topbar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 14px 0;
+  }
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+  }
+  .brand .prompt { color: var(--accent); }
+  .brand .name { color: var(--text); }
+  .brand .ext  { color: var(--text-mute); }
+  .brand .cur  {
+    display: inline-block;
+    width: 8px; height: 15px;
+    background: var(--accent);
+    margin-left: 4px;
+    vertical-align: -2px;
+    animation: blink 1.05s steps(2,end) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .brand .cur { animation: none; } }
+
+  nav.primary {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+  nav.primary a {
+    color: var(--text-dim);
+    font-size: 13px;
+    padding: 6px 10px;
+    border-radius: 2px;
+    transition: color .15s, background .15s;
+  }
+  nav.primary a:hover { color: var(--text); background: var(--bg-soft); }
+  nav.primary a .n { color: var(--text-mute); margin-right: 6px; }
+
+  /* ───── hero ────────────────────────────────────────────── */
+  .hero {
+    padding: clamp(72px, 14vh, 160px) 0 clamp(56px, 10vh, 96px);
+    border-bottom: 1px solid var(--bg-line);
+  }
+  .hero-meta {
+    display: flex;
+    gap: 18px;
+    color: var(--text-mute);
+    font-size: 12px;
+    margin-bottom: 36px;
+    flex-wrap: wrap;
+  }
+  .hero-meta span::before { content: "// "; color: var(--accent-dim); }
+  .hero h1 {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: clamp(28px, 5.4vw, 56px);
+    line-height: 1.18;
+    letter-spacing: -0.01em;
+    margin: 0 0 28px;
+    max-width: 22ch;
+  }
+  .hero h1 .lead { color: var(--accent); }
+  .hero h1 .pipe { color: var(--text-mute); font-weight: 400; padding: 0 4px; }
+  .hero .lede {
+    color: var(--text-dim);
+    font-size: 15px;
+    max-width: 60ch;
+    margin: 0 0 40px;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 11px 18px;
+    border: 1px solid var(--bg-line);
+    background: var(--bg-soft);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 13px;
+    border-radius: 2px;
+    transition: border-color .15s, color .15s, background .15s;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); }
+  .btn.primary { border-color: var(--accent-dim); color: var(--accent); }
+  .btn.primary:hover { background: var(--accent); color: #0a0a0a; border-color: var(--accent); }
+  .btn .arrow { transition: transform .15s; }
+  .btn:hover .arrow { transform: translateX(3px); }
+
+  /* ───── section frame ───────────────────────────────────── */
+  section.block {
+    padding: clamp(64px, 10vh, 112px) 0;
+    border-bottom: 1px solid var(--bg-line);
+  }
+  .sec-head {
+    display: flex;
+    align-items: baseline;
+    gap: 18px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+  }
+  .sec-head .idx {
+    color: var(--accent);
+    font-size: 12px;
+    letter-spacing: 0.12em;
+  }
+  .sec-head h2 {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: clamp(22px, 3vw, 30px);
+    margin: 0;
+    letter-spacing: -0.01em;
+  }
+  .sec-head .tag {
+    color: var(--text-mute);
+    font-size: 12px;
+    margin-left: auto;
+  }
+
+  /* ───── now ─────────────────────────────────────────────── */
+  .now {
+    border-left: 2px solid var(--accent);
+    padding: 4px 0 4px 22px;
+    color: var(--text);
+    font-size: 15px;
+    max-width: 70ch;
+  }
+  .now .k { color: var(--text-mute); }
+  .now a { color: var(--accent); border-bottom: 1px dashed var(--accent-dim); }
+  .now a:hover { background: rgba(199,125,58,0.08); }
+
+  /* ───── artifacts grid ──────────────────────────────────── */
+  .grid-artifacts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1px;
+    background: var(--bg-line);
+    border: 1px solid var(--bg-line);
+  }
+  .artifact {
+    background: var(--bg);
+    padding: 26px 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: background .15s;
+    min-height: 180px;
+  }
+  .artifact:hover { background: var(--bg-soft); }
+  .artifact .a-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    color: var(--text-mute);
+    font-size: 12px;
+  }
+  .artifact .a-head .tag-ok { color: var(--ok); }
+  .artifact h3 {
+    margin: 4px 0 0;
+    font-family: var(--mono);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .artifact p {
+    margin: 0;
+    color: var(--text-dim);
+    font-size: 13.5px;
+    line-height: 1.6;
+  }
+  .artifact .a-foot {
+    margin-top: auto;
+    color: var(--accent);
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ───── writing list ────────────────────────────────────── */
+  ul.list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--bg-line);
+  }
+  ul.list li {
+    display: grid;
+    grid-template-columns: 92px 1fr auto;
+    gap: 20px;
+    align-items: baseline;
+    padding: 18px 0;
+    border-bottom: 1px solid var(--bg-line);
+    transition: background .15s, padding .15s;
+  }
+  ul.list li:hover { background: var(--bg-soft); padding-left: 12px; padding-right: 12px; }
+  ul.list .date { color: var(--text-mute); font-size: 12px; }
+  ul.list .title { color: var(--text); font-size: 15px; }
+  ul.list .title:hover { color: var(--accent); }
+  ul.list .where { color: var(--text-mute); font-size: 12px; }
+  ul.list .where .ext { color: var(--accent-dim); }
+
+  /* ───── courses ─────────────────────────────────────────── */
+  .courses {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--bg-line);
+    border: 1px solid var(--bg-line);
+  }
+  .course {
+    background: var(--bg);
+    padding: 28px 28px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: center;
+  }
+  .course:hover { background: var(--bg-soft); }
+  .course .c-title {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 18px;
+    margin: 0 0 6px;
+  }
+  .course .c-desc { color: var(--text-dim); font-size: 13.5px; margin: 0; }
+  .course .c-meta {
+    display: flex; gap: 16px; flex-wrap: wrap;
+    color: var(--text-mute); font-size: 12px;
+    margin-top: 10px;
+  }
+  .course .c-meta .badge {
+    border: 1px solid var(--accent-dim);
+    color: var(--accent);
+    padding: 2px 8px;
+    border-radius: 2px;
+  }
+  .course .c-cta {
+    color: var(--accent);
+    font-size: 13px;
+    white-space: nowrap;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* ───── about ───────────────────────────────────────────── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .about-body p {
+    color: var(--text);
+    font-size: 15px;
+    margin: 0 0 18px;
+    max-width: 60ch;
+  }
+  .about-body p:last-child { margin-bottom: 0; }
+  .about-body .em { color: var(--accent); }
+  .about-side {
+    border-left: 1px solid var(--bg-line);
+    padding-left: 32px;
+  }
+  .about-side dt {
+    color: var(--text-mute);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    margin-top: 18px;
+  }
+  .about-side dt:first-child { margin-top: 0; }
+  .about-side dd {
+    margin: 4px 0 0;
+    color: var(--text);
+    font-size: 14px;
+  }
+  .about-side dd a { color: var(--accent); border-bottom: 1px dashed var(--accent-dim); }
+
+  /* ───── footer ──────────────────────────────────────────── */
+  footer.foot {
+    padding: 56px 0 40px;
+    color: var(--text-mute);
+    font-size: 12px;
+  }
+  .foot-inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .foot .sig { color: var(--text-dim); }
+  .foot .sig .accent { color: var(--accent); }
+  .foot a:hover { color: var(--accent); }
+
+  /* ───── responsive ──────────────────────────────────────── */
+  @media (max-width: 720px) {
+    nav.primary { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 36px; }
+    .about-side { border-left: 0; border-top: 1px solid var(--bg-line); padding: 32px 0 0; }
+    ul.list li { grid-template-columns: 80px 1fr; }
+    ul.list .where { grid-column: 2; padding-left: 0; }
+    .course { grid-template-columns: 1fr; }
+    .course .c-cta { justify-self: start; }
+  }
+
+  /* mobile nav toggle (simple anchor list shown below) */
+  .mobile-nav {
+    display: none;
+    border-top: 1px solid var(--bg-line);
+    background: var(--bg);
+  }
+  @media (max-width: 720px) {
+    .mobile-nav { display: block; }
+  }
+  .mobile-nav a {
+    display: block;
+    padding: 12px var(--gutter);
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--bg-line);
+    font-size: 13px;
+  }
+  .mobile-nav a:last-child { border-bottom: 0; }
+  .mobile-nav a .n { color: var(--accent); margin-right: 10px; }
+</style>
+</head>
+<body>
+
+<!-- ─────────────── top bar ─────────────── -->
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="#top" aria-label="aiartifacts.art">
+      <span class="prompt">$</span>
+      <span class="name">aiartifacts</span><span class="ext">.art</span>
+      <span class="cur" aria-hidden="true"></span>
+    </a>
+    <nav class="primary" aria-label="主导航">
+      <a href="https://daily.aiartifacts.art/"><span class="n">01</span>daily</a>
+      <a href="#tools"><span class="n">02</span>tools</a>
+      <a href="#artifacts"><span class="n">03</span>artifacts</a>
+      <a href="#about"><span class="n">04</span>about</a>
+      <a href="#courses"><span class="n">05</span>courses</a>
+    </nav>
+  </div>
+  <nav class="mobile-nav" aria-label="移动导航">
+    <a href="https://daily.aiartifacts.art/"><span class="n">01</span>daily</a>
+    <a href="#tools"><span class="n">02</span>tools</a>
+    <a href="#artifacts"><span class="n">03</span>artifacts</a>
+    <a href="#about"><span class="n">04</span>about</a>
+    <a href="#courses"><span class="n">05</span>courses</a>
+  </nav>
+</header>
+
+<main id="top">
+
+  <!-- ─────────────── hero ─────────────── -->
+  <section class="hero wrap" data-screen-label="Hero">
+    <div class="hero-meta">
+      <span>site_v1.0</span>
+      <span>zh-CN</span>
+      <span>static / seo-friendly</span>
+      <span>last_build 2026-06-25</span>
+    </div>
+    <h1>
+      <span class="lead">$ run</span> aiartifacts<span class="pipe">·</span>art<br/>
+      一个 AI 信徒，<br/>
+      把实践做成可被复用的 artifact。
+    </h1>
+    <p class="lede">
+      这里是一个 AI 信徒的个人站点。不是博客，也不是产品官网——
+      它是日常观察、可复用工具、长期作品与课程的统一入口。
+      所有内容只围绕一件事：在 AI 时代，哪些东西值得被做成 artifact，留下来。
+    </p>
+    <div class="hero-actions">
+      <a class="btn primary" href="#artifacts">
+        浏览 artifacts <span class="arrow">→</span>
+      </a>
+      <a class="btn" href="https://daily.aiartifacts.art/">
+        阅读 daily <span class="arrow">↗</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ─────────────── now ─────────────── -->
+  <section class="block wrap" id="now" data-screen-label="Now">
+    <div class="sec-head">
+      <span class="idx">[ 00 ]</span>
+      <h2>// now</h2>
+      <span class="tag">当前在做的事</span>
+    </div>
+    <div class="now">
+      <p>
+        <span class="k">$ status —</span>
+        正在更新 <a href="https://daily.aiartifacts.art/">daily.aiartifacts.art</a>，
+        整理上半年关于 AI agent 与投资框架的笔记。
+        下一阶段会把若干内部工具开放为可公开的 artifact。
+      </p>
+    </div>
+  </section>
+
+  <!-- ─────────────── artifacts ─────────────── -->
+  <section class="block wrap" id="artifacts" data-screen-label="Artifacts">
+    <div class="sec-head">
+      <span class="idx">[ 03 ]</span>
+      <h2>// artifacts</h2>
+      <span class="tag">精选作品 · 长期可复用</span>
+    </div>
+    <div class="grid-artifacts">
+
+      <a class="artifact" href="https://ss.aiartifacts.art/">
+        <div class="a-head">
+          <span>artifact_01</span>
+          <span class="tag-ok">● live</span>
+        </div>
+        <h3>slide-studio</h3>
+        <p>纯浏览器端的 slide 工具，无需登录、无需后端，打开即用。把幻灯片做成可被复用的 artifact。</p>
+        <div class="a-foot">打开 ss.aiartifacts.art <span>→</span></div>
+      </a>
+
+      <a class="artifact" href="#">
+        <div class="a-head">
+          <span>artifact_02</span>
+          <span class="tag-ok">● live</span>
+        </div>
+        <h3>prompt-atlas</h3>
+        <p>一套面向中文场景的 prompt 模式库，按场景与失败模式分类，可作为 agent 调用的基础。</p>
+        <div class="a-foot">查看 <span>→</span></div>
+      </a>
+
+      <a class="artifact" href="#">
+        <div class="a-head">
+          <span>artifact_03</span>
+          <span style="color: var(--text-mute);">○ wip</span>
+        </div>
+        <h3>agent-runbook</h3>
+        <p>在真实工作流里部署 agent 的操作手册：从任务拆分、上下文设计到失败回滚。</p>
+        <div class="a-foot">follow <span>→</span></div>
+      </a>
+
+      <a class="artifact" href="#">
+        <div class="a-head">
+          <span>artifact_04</span>
+          <span style="color: var(--text-mute);">○ planned</span>
+        </div>
+        <h3>ai-glossary</h3>
+        <p>一个为中文使用者整理的 AI 术语对照表：每条带最小可工作定义与一个真实用法。</p>
+        <div class="a-foot">notify me <span>→</span></div>
+      </a>
+
+    </div>
+  </section>
+
+  <!-- ─────────────── writing ─────────────── -->
+  <section class="block wrap" id="writing" data-screen-label="Writing">
+    <div class="sec-head">
+      <span class="idx">[ 01 ]</span>
+      <h2>// writing</h2>
+      <span class="tag">来自 daily.aiartifacts.art</span>
+    </div>
+    <ul class="list">
+      <li>
+        <span class="date">2026-06-22</span>
+        <a class="title" href="https://daily.aiartifacts.art/">为什么我把笔记叫做 artifact</a>
+        <span class="where">daily<span class="ext">.aiartifacts.art</span></span>
+      </li>
+      <li>
+        <span class="date">2026-06-15</span>
+        <a class="title" href="https://daily.aiartifacts.art/">AI agent 失败的三个常见模式</a>
+        <span class="where">daily<span class="ext">.aiartifacts.art</span></span>
+      </li>
+      <li>
+        <span class="date">2026-06-08</span>
+        <a class="title" href="https://daily.aiartifacts.art/">成为 AI 信徒的一年</a>
+        <span class="where">daily<span class="ext">.aiartifacts.art</span></span>
+      </li>
+      <li>
+        <span class="date">2026-05-30</span>
+        <a class="title" href="https://daily.aiartifacts.art/">把工具当作品来写</a>
+        <span class="where">daily<span class="ext">.aiartifacts.art</span></span>
+      </li>
+      <li>
+        <span class="date">2026-05-21</span>
+        <a class="title" href="https://daily.aiartifacts.art/">静态站点的长期主义</a>
+        <span class="where">daily<span class="ext">.aiartifacts.art</span></span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ─────────────── tools ─────────────── -->
+  <section class="block wrap" id="tools" data-screen-label="Tools">
+    <div class="sec-head">
+      <span class="idx">[ 02 ]</span>
+      <h2>// tools</h2>
+      <span class="tag">小工具 · 即拿即用</span>
+    </div>
+    <ul class="list">
+      <li>
+        <span class="date">tool_01</span>
+        <a class="title" href="#">prompt-linter — 在本地检查 prompt 的常见坏味道</a>
+        <span class="where">cli<span class="ext"> · oss</span></span>
+      </li>
+      <li>
+        <span class="date">tool_02</span>
+        <a class="title" href="#">ai-snippet — 把一段对话沉淀成可复用的 prompt 片段</a>
+        <span class="where">web<span class="ext"> · free</span></span>
+      </li>
+      <li>
+        <span class="date">tool_03</span>
+        <a class="title" href="#">artifact-init — 一键生成 artifact 目录结构</a>
+        <span class="where">cli<span class="ext"> · oss</span></span>
+      </li>
+    </ul>
+  </section>
+
+  <!-- ─────────────── courses ─────────────── -->
+  <section class="block wrap" id="courses" data-screen-label="Courses">
+    <div class="sec-head">
+      <span class="idx">[ 05 ]</span>
+      <h2>// courses</h2>
+      <span class="tag">课程 · 系统化输出</span>
+    </div>
+    <div class="courses">
+
+      <div class="course">
+        <div>
+          <h3 class="c-title">AI artifact 工作流</h3>
+          <p class="c-desc">从想法到可被复用的产物：怎么把日常的 AI 实践沉淀成长期资产。12 节，含实战项目。</p>
+          <div class="c-meta">
+            <span class="badge">报名中</span>
+            <span>第 2 期 · 2026-09 开课</span>
+            <span>已招 38 / 60</span>
+          </div>
+        </div>
+        <a class="c-cta" href="#">查看大纲 <span>→</span></a>
+      </div>
+
+      <div class="course">
+        <div>
+          <h3 class="c-title">和 AI 一起写作</h3>
+          <p class="c-desc">把 AI 当成协作者而非工具：从上下文设计到审美判断，一门关于人机共创的写作课。</p>
+          <div class="c-meta">
+            <span class="badge">候补</span>
+            <span>第 1 期 · 2026-11 开课</span>
+          </div>
+        </div>
+        <a class="c-cta" href="#">加入候补 <span>→</span></a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─────────────── about ─────────────── -->
+  <section class="block wrap" id="about" data-screen-label="About">
+    <div class="sec-head">
+      <span class="idx">[ 04 ]</span>
+      <h2>// about</h2>
+      <span class="tag">关于 aiartifacts.art</span>
+    </div>
+    <div class="about-grid">
+      <div class="about-body">
+        <p>
+          <span class="em">aiartifacts.art</span> 是一个 AI 信徒的个人站点。
+          我相信 AI 不是工具，而是一种新的世界观——
+          所有值得做的事，都应该想想能不能在 AI 时代被重新做一遍。
+        </p>
+        <p>
+          站点的所有产出都被称为 <span class="em">artifact</span>（人工制品）：
+          它不是一次性的内容消费，而是被刻意打磨、可以被反复调用与改进的东西。
+          它可能是一段 prompt、一个工具、一份 slide，或一门课程。
+        </p>
+        <p>
+          主站保持静态、克制、SEO 友好；动态内容住在
+          <a href="https://daily.aiartifacts.art/" style="color: var(--accent); border-bottom: 1px dashed var(--accent-dim);">daily.aiartifacts.art</a>。
+          所有页面都不追踪、不广告、不打扰。
+        </p>
+      </div>
+      <dl class="about-side">
+        <dt>// 站点</dt>
+        <dd>aiartifacts.art</dd>
+        <dt>// daily</dt>
+        <dd><a href="https://daily.aiartifacts.art/">daily.aiartifacts.art</a></dd>
+        <dt>// tools (规划)</dt>
+        <dd>tools.aiartifacts.art</dd>
+        <dt>// contact</dt>
+        <dd><a href="mailto:hi@aiartifacts.art">hi@aiartifacts.art</a></dd>
+        <dt>// rss</dt>
+        <dd><a href="/feed.xml">/feed.xml</a></dd>
+        <dt>// license</dt>
+        <dd>CC BY-NC 4.0</dd>
+      </dl>
+    </div>
+  </section>
+
+</main>
+
+<!-- ─────────────── footer ─────────────── -->
+<footer class="foot">
+  <div class="wrap foot-inner">
+    <div class="sig">
+      <span class="accent">$</span> built quietly · <span class="accent">aiartifacts</span>.art · 2026
+    </div>
+    <div>
+      <a href="#top">↑ back to top</a>
+      &nbsp;·&nbsp;
+      <a href="https://daily.aiartifacts.art/">daily</a>
+      &nbsp;·&nbsp;
+      <a href="/feed.xml">rss</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

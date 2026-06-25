@@ -1,0 +1,19 @@
+---
+const { artifact } = Astro.props;
+const statusLabel = {
+  live: { text: "● live", cls: "tag-ok" },
+  wip: { text: "○ wip", cls: "" },
+  planned: { text: "○ planned", cls: "" }
+}[artifact.status];
+const ctaLabel = { live: "查看", wip: "follow", planned: "notify me" }[artifact.status];
+---
+
+<a class="artifact" href={artifact.href}>
+  <div class="a-head">
+    <span>{artifact.id}</span>
+    <span class={statusLabel.cls}>{statusLabel.text}</span>
+  </div>
+  <h3>{artifact.title}</h3>
+  <p>{artifact.desc}</p>
+  <div class="a-foot">{ctaLabel} <span>→</span></div>
+</a>

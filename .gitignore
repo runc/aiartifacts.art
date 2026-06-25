@@ -1,0 +1,25 @@
+# Claude / agent tooling
+.claude/
+skills-lock.json
+
+# Node
+node_modules/
+dist/
+.astro/
+.next/
+.cache/
+
+# Build & logs
+*.log
+npm-debug.log*
+
+# Editor / OS
+.DS_Store
+.vscode/
+.idea/
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example

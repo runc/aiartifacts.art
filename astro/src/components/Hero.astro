@@ -1,0 +1,26 @@
+---
+import { site } from "../data/site";
+---
+
+<section class="hero wrap" data-screen-label="Hero">
+  <div class="hero-meta">
+    <span>site_v1.0</span>
+    <span>zh-CN</span>
+    <span>static / seo-friendly</span>
+    <span>last_build {site.buildDate}</span>
+  </div>
+  <h1>
+    <span class="lead">$ run</span> aiartifacts<span class="pipe">·</span>art<br />
+    一个 AI 信徒，<br />
+    把实践做成可被复用的 artifact。
+  </h1>
+  <p class="lede">
+    这里是一个 AI 信徒的个人站点。不是博客，也不是产品官网——
+    它是日常观察、可复用工具、长期作品与课程的统一入口。
+    所有内容只围绕一件事：在 AI 时代，哪些东西值得被做成 artifact，留下来。
+  </p>
+  <div class="hero-actions">
+    <a class="btn primary" href="#artifacts">浏览 artifacts <span class="arrow">→</span></a>
+    <a class="btn" href={site.dailyUrl}>阅读 daily <span class="arrow">↗</span></a>
+  </div>
+</section>
