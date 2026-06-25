@@ -63,6 +63,19 @@ body::before {
   z-index: 0;
 }
 
+/* ───── particle canvas (mouse-reactive background) ─────── */
+.particles-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+/* lift all real content above the canvas */
+.topbar, main, footer.foot { position: relative; z-index: 1; }
+.topbar { z-index: 50; }
+
 a { color: inherit; text-decoration: none; }
 ::selection { background: var(--accent); color: var(--bg); }
 

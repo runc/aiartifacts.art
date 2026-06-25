@@ -1,0 +1,167 @@
+---
+// Mouse-reactive particle background.
+// Pure Canvas 2D — zero runtime deps. Falls back to nothing under
+// prefers-reduced-motion or when canvas is unsupported.
+---
+
+<canvas class="particles-bg" id="particles-bg" aria-hidden="true"></canvas>
+
+<script is:inline>
+  (function () {
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const canvas = document.getElementById("particles-bg");
+    if (!canvas || prefersReduced) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    // --- config ---
+    const ACCENT_RGB = "199, 125, 58";   // --accent (#c77d3a), dark theme
+    const LIGHT_ACCENT_RGB = "168, 90, 26"; // --accent in light theme
+    const DENSITY = 11000;                // 1 particle per N px²
+    const MAX_PARTICLES = 90;
+    const LINK_DIST = 140;                // px: connect particles within this distance
+    const MOUSE_RADIUS = 180;             // px: mouse influence radius
+    const MOUSE_FORCE = 0.045;            // attraction strength
+    const BASE_SPEED = 0.18;              // drift speed
+
+    let w = 0, h = 0, dpr = 1;
+    let particles = [];
+    const mouse = { x: -9999, y: -9999, active: false };
+
+    function isLight() {
+      return document.documentElement.getAttribute("data-theme") === "light";
+    }
+
+    function resize() {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = window.innerWidth;
+      h = window.innerHeight;
+      canvas.width = w * dpr;
+      canvas.height = h * dpr;
+      canvas.style.width = w + "px";
+      canvas.style.height = h + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      seed();
+    }
+
+    function seed() {
+      const count = Math.min(MAX_PARTICLES, Math.floor((w * h) / DENSITY));
+      particles = [];
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * BASE_SPEED,
+          vy: (Math.random() - 0.5) * BASE_SPEED,
+          r: Math.random() * 1.4 + 0.6,
+          // gentle per-particle twinkle
+          phase: Math.random() * Math.PI * 2
+        });
+      }
+    }
+
+    function step(t) {
+      ctx.clearRect(0, 0, w, h);
+      const rgb = isLight() ? LIGHT_ACCENT_RGB : ACCENT_RGB;
+
+      // update + draw points
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+
+        // mouse attraction
+        if (mouse.active) {
+          const dx = mouse.x - p.x;
+          const dy = mouse.y - p.y;
+          const d2 = dx * dx + dy * dy;
+          const r2 = MOUSE_RADIUS * MOUSE_RADIUS;
+          if (d2 < r2) {
+            const d = Math.sqrt(d2) || 1;
+            const pull = (1 - d / MOUSE_RADIUS) * MOUSE_FORCE;
+            p.vx += (dx / d) * pull;
+            p.vy += (dy / d) * pull;
+          }
+        }
+
+        // friction + drift clamp
+        p.vx *= 0.96;
+        p.vy *= 0.96;
+        const sp = Math.hypot(p.vx, p.vy);
+        if (sp < BASE_SPEED * 0.5) {
+          // nudge back to a gentle drift
+          p.vx += (Math.random() - 0.5) * 0.02;
+          p.vy += (Math.random() - 0.5) * 0.02;
+        }
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // wrap around edges
+        if (p.x < -10) p.x = w + 10;
+        if (p.x > w + 10) p.x = -10;
+        if (p.y < -10) p.y = h + 10;
+        if (p.y > h + 10) p.y = -10;
+
+        // twinkle alpha
+        const alpha = 0.35 + 0.35 * Math.sin(t * 0.0008 + p.phase);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${rgb}, ${alpha})`;
+        ctx.fill();
+      }
+
+      // links between nearby particles + to mouse
+      ctx.lineWidth = 0.6;
+      for (let i = 0; i < particles.length; i++) {
+        const a = particles[i];
+        for (let j = i + 1; j < particles.length; j++) {
+          const b = particles[j];
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const d = Math.hypot(dx, dy);
+          if (d < LINK_DIST) {
+            const alpha = (1 - d / LINK_DIST) * 0.22;
+            ctx.strokeStyle = `rgba(${rgb}, ${alpha})`;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(b.x, b.y);
+            ctx.stroke();
+          }
+        }
+        // link to mouse
+        if (mouse.active) {
+          const dx = a.x - mouse.x;
+          const dy = a.y - mouse.y;
+          const d = Math.hypot(dx, dy);
+          if (d < MOUSE_RADIUS) {
+            const alpha = (1 - d / MOUSE_RADIUS) * 0.5;
+            ctx.strokeStyle = `rgba(${rgb}, ${alpha})`;
+            ctx.beginPath();
+            ctx.moveTo(a.x, a.y);
+            ctx.lineTo(mouse.x, mouse.y);
+            ctx.stroke();
+          }
+        }
+      }
+
+      requestAnimationFrame(step);
+    }
+
+    // --- events ---
+    window.addEventListener("resize", resize, { passive: true });
+    window.addEventListener("pointermove", (e) => {
+      mouse.x = e.clientX;
+      mouse.y = e.clientY;
+      mouse.active = true;
+    }, { passive: true });
+    window.addEventListener("pointerleave", () => { mouse.active = false; });
+    window.addEventListener("blur", () => { mouse.active = false; });
+
+    // pause when tab hidden (saves battery/CPU)
+    document.addEventListener("visibilitychange", () => {
+      if (document.hidden) return; // RAF auto-throttles; just resume when visible
+    });
+
+    resize();
+    requestAnimationFrame(step);
+  })();
+</script>
