@@ -45,6 +45,18 @@ export const artifacts = [
     status: "live",
     external: true,
     href: "https://da.aiartifacts.art/"
+  },
+  {
+    id: "artifact_03",
+    title: "cowart",
+    slug: "cowart",
+    desc: "纯浏览器无限画布 + AI 图像生成：tldraw 画布 × 多 provider AI 绘图，BYOK、无后端。",
+    longDesc:
+      "一个完全运行在浏览器里的无限画布 + AI 图像生成工具。基于 tldraw 提供可视化画布，用 Vercel AI SDK 驱动多步智能体工作流，支持 OpenAI / 字节 Seedream / 通义万相 / Gemini Nano Banana 多图像 provider（BYOK）。数据全部存放在浏览器 IndexedDB，无后端、无需登录。在画布上构思、标注、生成、迭代——把图像创作从一次性产物变成可演化的 artifact。",
+    tags: ["canvas", "tldraw", "image-gen", "byok", "browser-only", "no-backend"],
+    status: "live",
+    external: true,
+    href: "https://cw.aiartifacts.art/"
   }
 ] as const;
 
