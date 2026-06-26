@@ -4,7 +4,7 @@ export const site = {
   title: "aiartifacts.art — 一个 AI 信徒的 artifact 集结地",
   description:
     "aiartifacts.art 是一个 AI 信徒的个人站点。这里产出可被复用的 artifact：日常观察、工具、作品与课程，全部围绕 AI。",
-  keywords: "AI, artifact, 个人作品, 课程, daily, 工具, slide studio",
+  keywords: "AI, artifact, 个人作品, 课程, daily, 工具, slide studio, doc agent",
   dailyUrl: "https://daily.aiartifacts.art/",
   toolsUrl: "https://tools.aiartifacts.art/",
   contactEmail: "hi@aiartifacts.art",
@@ -36,39 +36,15 @@ export const artifacts = [
   },
   {
     id: "artifact_02",
-    title: "prompt-atlas",
-    slug: "prompt-atlas",
-    desc: "一套面向中文场景的 prompt 模式库，按场景与失败模式分类，可作为 agent 调用的基础。",
+    title: "doc-agent",
+    slug: "doc-agent",
+    desc: "空间型知识文档 AI 编辑助手：像软件工程一样来写文档，知识工作者的新选择。",
     longDesc:
-      "把零散的 prompt 经验整理成一份可检索的模式库：按使用场景（写作、分析、代码、agent 编排）与失败模式（幻觉、跑题、格式漂移）双维度分类，每条都标注最小可工作形态与常见退化路径。可以作为 agent 调用的基础资产。",
-    tags: ["prompt", "patterns", "chinese", "agent-ready"],
+      "把软件工程的方法论搬进文档世界：版本化、可组合、可复用、可被 agent 接管。doc-agent 把零散的知识沉淀进一个可演化的空间，让文档像代码一样被工程化管理——这是知识工作者的新选择，也是 AI 时代文档该有的形态。",
+    tags: ["doc", "knowledge", "agent", "spatial", "engineering"],
     status: "live",
-    external: false,
-    href: "#"
-  },
-  {
-    id: "artifact_03",
-    title: "agent-runbook",
-    slug: "agent-runbook",
-    desc: "在真实工作流里部署 agent 的操作手册：从任务拆分、上下文设计到失败回滚。",
-    longDesc:
-      "给『在真实工作流里跑 agent』写一份操作手册：怎么把一个模糊需求拆成 agent 能执行的子任务、怎么设计上下文窗口、怎么在 agent 跑飞时优雅回滚。它是给操作者看的，不是给模型看的。",
-    tags: ["agent", "ops", "workflow", "runbook"],
-    status: "wip",
-    external: false,
-    href: "#"
-  },
-  {
-    id: "artifact_04",
-    title: "ai-glossary",
-    slug: "ai-glossary",
-    desc: "一个为中文使用者整理的 AI 术语对照表：每条带最小可工作定义与一个真实用法。",
-    longDesc:
-      "面向中文使用者的 AI 术语对照表。每条包含：英文原词、中文译法（含常见误译）、最小可工作定义、一个真实场景里的用法。目标是让『看懂一段 AI 讨论』不再需要先去英文社区查半年。",
-    tags: ["glossary", "chinese", "reference"],
-    status: "planned",
-    external: false,
-    href: "#"
+    external: true,
+    href: "https://da.aiartifacts.art/"
   }
 ] as const;
 
