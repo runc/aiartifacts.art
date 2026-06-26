@@ -13,6 +13,11 @@ dist/
 *.log
 npm-debug.log*
 
+# Design preview screenshots (local only)
+astro/preview-*.png
+designs/**/preview-*.png
+designs/**/preview*.png
+
 # Editor / OS
 .DS_Store
 .vscode/

@@ -1,0 +1,115 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Topbar from "../components/Topbar.astro";
+import Footer from "../components/Footer.astro";
+import ParticleBackground from "../components/ParticleBackground.astro";
+import { artifacts, site } from "../data/site";
+
+const statusMap = {
+  live: { label: "live", cls: "live" },
+  wip: { label: "wip", cls: "wip" },
+  planned: { label: "planned", cls: "planned" }
+};
+const ctaMap = {
+  live: "打开",
+  wip: "follow 进度",
+  planned: "加入候补"
+};
+---
+
+<Layout
+  title="artifacts — aiartifacts.art"
+  description="aiartifacts.art 的全部作品：可被复用的 AI artifact 集结地。每个作品都是一个独立的、可被反复调用与改进的人工制品。"
+  canonical={`${site.url}/artifacts`}
+>
+  <ParticleBackground />
+  <Topbar />
+
+  <main id="top">
+
+    <section class="artifacts-hero wrap" data-screen-label="Artifacts Hero">
+      <div class="hero-meta" style="margin-bottom: 28px;">
+        <span>artifacts/index</span>
+        <span>{artifacts.length} 个作品</span>
+        <span>last_update {site.buildDate}</span>
+      </div>
+      <h1>
+        <span class="lead">$ ls</span> ~/artifacts<br />
+        所有被刻意留下的东西。
+      </h1>
+      <p class="lede">
+        这里是 aiartifacts.art 的作品索引。每一个 artifact 都不是一次性内容——
+        它是被刻意打磨、可以被反复调用与改进的人工制品。
+        它可能是一个工具、一段 prompt、一份手册或一份对照表。
+        下面按状态列出全部作品。
+      </p>
+    </section>
+
+    <section class="block wrap" style="padding-top: clamp(40px, 6vh, 64px);">
+      <ul class="artifact-rows">
+        {
+          artifacts.map((a) => {
+            const st = statusMap[a.status];
+            return (
+              <li class="artifact-row">
+                <div class="row-meta">
+                  <span class="row-id">{a.id}</span>
+                  <span class={`row-status ${st.cls}`}>
+                    <span class="dot" />
+                    {st.label}
+                  </span>
+                </div>
+                <div class="row-body">
+                  <h3>{a.title}</h3>
+                  <p class="row-long">{a.longDesc}</p>
+                  <div class="row-tags">
+                    {a.tags.map((t) => <span class="tag">#{t}</span>)}
+                  </div>
+                  <a
+                    class="row-cta"
+                    href={a.href}
+                    {...(a.external ? { target: "_blank", rel: "noopener" } : {})}
+                  >
+                    {ctaMap[a.status]}
+                    <span class="arrow">{a.external ? "↗" : "→"}</span>
+                  </a>
+                </div>
+              </li>
+            );
+          })
+        }
+      </ul>
+    </section>
+
+    <section class="artifacts-philosophy wrap">
+      <div class="sec-head">
+        <span class="idx">[ * ]</span>
+        <h2>// what counts</h2>
+        <span class="tag">什么算 artifact</span>
+      </div>
+      <div class="pgrid">
+        <div>
+          <h4 class="is-yes">yes — 是 artifact</h4>
+          <ul>
+            <li data-mark="✓">能被反复调用，每次调用都有改进</li>
+            <li data-mark="✓">有明确的最小可工作形态</li>
+            <li data-mark="✓">脱离特定平台/账号依然可用</li>
+            <li data-mark="✓">能被另一个 AI 或人类接手</li>
+          </ul>
+        </div>
+        <div>
+          <h4 class="is-no">no — 不是 artifact</h4>
+          <ul>
+            <li data-mark="✗">只在某个 SaaS 里能跑的一次性配置</li>
+            <li data-mark="✗">没有失败模式的 prompt 玩具</li>
+            <li data-mark="✗">依赖登录态、cookie、私有 API 的脚本</li>
+            <li data-mark="✗">看完即弃的笔记或截图</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <Footer />
+</Layout>
