@@ -4,13 +4,13 @@ export const site = {
   title: "aiartifacts.art — 一个 AI 信徒的 artifact 集结地",
   description:
     "aiartifacts.art 是一个 AI 信徒的个人站点。这里产出可被复用的 artifact：日常观察、工具、作品与课程，全部围绕 AI。",
-  keywords: "AI, artifact, 个人作品, 课程, daily, 工具, slide studio, doc agent",
+  keywords: "AI, artifact, 个人作品, 课程, daily, 工具, slide studio, doc agent, tick note",
   dailyUrl: "https://daily.aiartifacts.art/",
   toolsUrl: "https://tools.aiartifacts.art/",
   contactEmail: "hi@aiartifacts.art",
   rssPath: "/feed.xml",
   license: "CC BY-NC 4.0",
-  buildDate: "2026-06-25"
+  buildDate: "2026-07-02"
 } as const;
 
 export const nav = [
@@ -57,6 +57,18 @@ export const artifacts = [
     status: "live",
     external: true,
     href: "https://cw.aiartifacts.art/"
+  },
+  {
+    id: "artifact_04",
+    title: "tick-note",
+    slug: "tick-note",
+    desc: "浏览器即战场，逻辑即持仓。A 股全流程分析兵器库——Notebook 实验场 + Agent 副驾驶，本地协议直连行情，无云端黑箱。",
+    longDesc:
+      "Tick Note 是一套在浏览器内跑满全流程的 A 股分析兵器库——不绑券商终端，不依赖云端黑箱；每一行 Cell、每一次 Agent 推理，都在你自己的机器上完成。双模态作战：Notebook 是类 Jupyter 的 Cell 实验场（JS/TS 原生内核或 Pyodide Python，Wickra WASM 扛指标计算，Lightweight Charts 即时出图）；Agent 是自然语言驱动的分析副驾驶（Tool Loop 或 Deep Agents 双引擎，Skills 渐进披露，行情 / 财务 / 图表工具一键调度）。数据命脉：easy-tdx 本地协议直连通达信行情站，A 股 K 线、财务、盘口实时接入。API Key 仅存 localStorage，IndexedDB 本地持久化，断网也能复盘。开源 MIT，逻辑可审计——你掌控自己的 alpha。",
+    tags: ["trading", "a-share", "notebook", "agent", "browser-only", "local-first", "byok"],
+    status: "live",
+    external: true,
+    href: "https://ticknote.aiartifacts.art/"
   }
 ] as const;
 
