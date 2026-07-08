@@ -69,6 +69,18 @@ export const artifacts = [
     status: "live",
     external: true,
     href: "https://ticknote.aiartifacts.art/"
+  },
+  {
+    id: "artifact_05",
+    title: "mastra-browser-loop",
+    slug: "mastra-browser-loop",
+    desc: "纯浏览器端运行 Mastra Agent Loop：无需 Node.js 服务端，BYOK 直连 LLM，skill/tool/memory 全在浏览器。",
+    longDesc:
+      "一个在浏览器里完整运行 @mastra/core agent loop 的概念验证项目。不依赖任何 Node.js 服务端——LLM providers (OpenAI / Anthropic / OpenAI-compatible) 显式注入，skills、custom tools、in-memory storage、HTTP MCP 全部在浏览器端工作。通过 Vite alias + stubs 方案绕过 Node builtins（fs、child_process 等），用 globalThis.crypto + FNV-1a 替代 node:crypto，用最小 AsyncLocalStorage shim 替代 node:async_hooks。生产包体积约 4.3 MB minified / 1.0 MB gzipped。BYOK 直连你的 LLM provider，数据全部在本机。",
+    tags: ["mastra", "agent-loop", "browser-only", "byok", "no-backend", "local-first"],
+    status: "live",
+    external: true,
+    href: "https://mastra.aiartifacts.art/"
   }
 ] as const;
 
