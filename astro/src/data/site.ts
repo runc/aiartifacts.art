@@ -81,6 +81,18 @@ export const artifacts = [
     status: "live",
     external: true,
     href: "https://mastra.aiartifacts.art/"
+  },
+  {
+    id: "artifact_06",
+    title: "repo-rag",
+    slug: "repo-rag",
+    desc: "GitHub Trending RAG 知识库：每日自动抓取 trending，DeepWiki MCP + LLM 生成中文摘要，浏览器端向量全文双路检索。",
+    longDesc:
+      "一个基于 GitHub Trending 的 AI 知识库。每日自动抓取 GitHub trending 仓库，通过 MCP 协议直连 DeepWiki 获取仓库上下文，再用 LLM (DeepSeek 等 OpenAI 兼容模型) 生成中文摘要、标签与分类，最后构建为 Astro 静态站。浏览器端搜索采用 Pagefind 关键词全文 + ternlight WASM 向量嵌入双路 RRF 融合检索，无需任何搜索 API。pnpm monorepo 结构，GitHub Actions 每日两次自动触发采集→构建→部署全流程。",
+    tags: ["rag", "github-trending", "mcp", "deepwiki", "llm", "static-site", "vector-search"],
+    status: "live",
+    external: true,
+    href: "https://repo-rag.aiartifacts.art/"
   }
 ] as const;
 
